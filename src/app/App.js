@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CardList from "./components/CardList";
 import SearchBox from "./components/SearchBox";
+import Scroll from "./components/Scroll";
 import "./App.css";
 
 class App extends Component {
@@ -24,8 +25,9 @@ class App extends Component {
             .then(users => this.setState({ robots: users }));
     }
 
-    // -> it's good practice to use arrow functions for custom methods
-    // as react will be able to tell where to grab the "this" from
+    // -> it's good practice to use arrow functions for 
+    // custom methods as react will be able to tell
+    // where to grab the "this" from
     onSearchChange = (event) => {
         // -> take what gets entered inside the input box and store it
         // inside the "searchField" state var 
@@ -47,7 +49,9 @@ class App extends Component {
             <div className="tc">
                 <h1 className="f1">RoboFriends</h1>
                 <SearchBox searchChange={this.onSearchChange} />
-                <CardList robots={filteredRobots} />
+                <Scroll>
+                    <CardList robots={filteredRobots} />
+                </Scroll>
             </div>
         )
     }
