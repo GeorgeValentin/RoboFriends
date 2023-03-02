@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import CardList from "./components/CardList";
-import SearchBox from "./components/SearchBox";
-import Scroll from "./components/Scroll";
+import CardList from "../components/CardList";
+import SearchBox from "../components/SearchBox";
+import Scroll from "../components/Scroll";
 import "./App.css";
 
 class App extends Component {
@@ -35,25 +35,32 @@ class App extends Component {
     }
 
     render() {
+        // -> we use objects destructuring so that we do not repeat
+        // this.state all the time
+        const { robots, searchField } = this.state;
+
         // -> use the searchField value to filter on the robots array 
         // and take only the robots whose names include the searchField
-        const filteredRobots = this.state.robots.filter(robots => {
-            return robots.name.toLowerCase().includes(this.state.searchField.toLowerCase());
+        const filteredRobots = robots.filter(robot => {
+            return robot.name.toLowerCase().includes(searchField.toLowerCase());
         });
 
-        if(this.state.robots.length === 0) {
-            return <h1>Loading...</h1>
-        }
-        
-        return (
-            <div className="tc">
-                <h1 className="f1">RoboFriends</h1>
-                <SearchBox searchChange={this.onSearchChange} />
-                <Scroll>
-                    <CardList robots={filteredRobots} />
-                </Scroll>
-            </div>
-        )
+        // -> if robots.length === 0 => in js it means false and
+        // we add ! before it to make it true
+        return !robots.length ?
+            <h1>Loading...</h1>:
+            (
+                <div className="tc">
+                    <h1 className="f1">RoboFriends</h1>
+                    <SearchBox searchChange={this.onSearchChange} />
+
+                    {/* Scrolling component, SearchBox will remain at 
+                    the top of the page */}
+                    <Scroll>
+                        <CardList robots={filteredRobots} />
+                    </Scroll>
+                </div>
+            )
     }
 }
 
